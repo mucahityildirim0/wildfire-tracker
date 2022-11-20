@@ -1,13 +1,29 @@
 import GoogleMapReact from "google-map-react";
+import LocationMarker from "./LocationMarker";
 
-const Map = ({ center, zoom }) => {
+const Map = ({ eventData, center, zoom }) => {
+  const markers = eventData.map((ev) => {
+    if (ev.categories[0].id === "wildfires") {
+      return (
+        <LocationMarker
+          lat={ev.features[0].geometry.coordinates[1]}
+          lng={ev.features[0].geometry.coordinates[0]}
+        />
+      );
+    }
+    return null;
+  });
+
+  console.log(markers);
   return (
     <div className="map">
       <GoogleMapReact
         bootstrapURLKeys={{ key: "AIzaSyCEC61-3Jfou2DOH3quO4tRTVnNVuwEiC4" }}
         defaultCenter={center}
         defaultZoom={zoom}
-      ></GoogleMapReact>
+      >
+        {markers}
+      </GoogleMapReact>
     </div>
   );
 };
